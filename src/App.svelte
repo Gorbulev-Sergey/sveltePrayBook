@@ -5,12 +5,12 @@
 
 	let isNavPanelShow = true;
 	let isTitlesShow = true;
-	let bgColor = "bg-light";
-	let textColor = "text-dark";
-	let fontFamily = "Raleway";
-	let fontSize = 1.2;
-	let lineHeight = 1.25;
-	let articleInterval = 0.75;
+	let bgColor: String = "bg-light";
+	let textColor: String = "text-dark";
+	let fontFamily: String = "Raleway";
+	let fontSize: Number = 1.2;
+	let lineHeight: Number = 1.25;
+	let articleInterval: Number = 0.75;
 
 	let colors = [
 		{ name: "light", description: "Белый" },
@@ -20,16 +20,17 @@
 		{ name: "dark", description: "Тёмный" },
 	];
 
-	initialLocalStorage();
 	onMount(() => {
+		initialLocalStorage();
+
 		isNavPanelShow =
 			localStorage.getItem("isNavPanelShow").toLowerCase() === "true";
 		isTitlesShow =
 			localStorage.getItem("isTitlesShow").toLowerCase() === "true";
-		bgColor = JSON.parse(localStorage.getItem("bgColor"));
-		textColor = JSON.parse(localStorage.getItem("textColor"));
-		fontFamily = JSON.parse(localStorage.getItem("fontFamily"));
-		fontSize = Number(localStorage.getItem("fontSize"));
+		bgColor = JSON.parse(localStorage.getItem("bgColor").toString());
+		textColor = JSON.parse(localStorage.getItem("textColor").toString());
+		fontFamily = JSON.parse(localStorage.getItem("fontFamily").toString());
+		fontSize = JSON.parse(localStorage.getItem("fontSize"));
 		lineHeight = Number(localStorage.getItem("lineHeight"));
 		articleInterval = Number(localStorage.getItem("articleInterval"));
 	});
