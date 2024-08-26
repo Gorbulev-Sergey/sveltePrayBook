@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { bgColor } from "./lib/scripts/localStorage.ts";
 	import { onMount } from "svelte";
 	import Title from "./lib/components/Title.svelte";
 	import { initialLocalStorage } from "./lib/scripts/localStorage";
@@ -21,11 +20,18 @@
 		{ name: "dark", description: "Тёмный" },
 	];
 
+	initialLocalStorage();
 	onMount(() => {
-		initialLocalStorage();
 		isNavPanelShow =
-			localStorage.getItem("isNavPanelShow").toLocaleLowerCase() ===
-			"true";
+			localStorage.getItem("isNavPanelShow").toLowerCase() === "true";
+		isTitlesShow =
+			localStorage.getItem("isTitlesShow").toLowerCase() === "true";
+		bgColor = JSON.parse(localStorage.getItem("bgColor"));
+		textColor = JSON.parse(localStorage.getItem("textColor"));
+		fontFamily = JSON.parse(localStorage.getItem("fontFamily"));
+		fontSize = Number(localStorage.getItem("fontSize"));
+		lineHeight = Number(localStorage.getItem("lineHeight"));
+		articleInterval = Number(localStorage.getItem("articleInterval"));
 	});
 </script>
 
@@ -33,8 +39,14 @@
 	title="Молитвы о воинах"
 	isShow={isNavPanelShow}
 	{bgColor}
-	isTitlesButtonClicked={() => (isTitlesShow = true)}
-	isSettingsButtonClicked={() => (isTitlesShow = false)}
+	isTitlesButtonClicked={() => {
+		isTitlesShow = true;
+		localStorage.setItem("isTitlesShow", JSON.stringify(isTitlesShow));
+	}}
+	isSettingsButtonClicked={() => {
+		isTitlesShow = false;
+		localStorage.setItem("isTitlesShow", JSON.stringify(isTitlesShow));
+	}}
 />
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -656,7 +668,7 @@
 							<div class="d-flex align-items-center gap-1 pt-1">
 								<i class="fa-solid fa-text-height" />
 								<div class="badge bg-dark text-light">
-									{Math.round(fontSize * 100) / 100}
+									{fontSize}
 								</div>
 							</div>
 							<div class="text-start">Размер шрифта</div>
@@ -666,6 +678,7 @@
 						class="btn btn-secondary"
 						on:click|stopPropagation={() => {
 							fontSize += 0.05;
+							fontSize = Math.round(fontSize * 100) / 100;
 							localStorage.setItem(
 								"fontSize",
 								JSON.stringify(fontSize),
@@ -676,6 +689,7 @@
 						class="btn btn-secondary"
 						on:click|stopPropagation={() => {
 							fontSize -= 0.05;
+							Math.round(fontSize * 100) / 100;
 							localStorage.setItem(
 								"fontSize",
 								JSON.stringify(fontSize),
@@ -691,7 +705,7 @@
 									class="fa-solid fa-arrow-down-up-across-line"
 								/>
 								<div class="badge bg-dark text-light">
-									{Math.round(lineHeight * 100) / 100}
+									{lineHeight}
 								</div>
 							</div>
 							<div class="text-start">Интервал строк</div>
@@ -701,6 +715,7 @@
 						class="btn btn-secondary"
 						on:click|stopPropagation={() => {
 							lineHeight += 0.05;
+							lineHeight = Math.round(lineHeight * 100) / 100;
 							localStorage.setItem(
 								"lineHeight",
 								JSON.stringify(lineHeight),
@@ -711,6 +726,7 @@
 						class="btn btn-secondary"
 						on:click|stopPropagation={() => {
 							lineHeight -= 0.05;
+							lineHeight = Math.round(lineHeight * 100) / 100;
 							localStorage.setItem(
 								"lineHeight",
 								JSON.stringify(lineHeight),
@@ -724,7 +740,7 @@
 							<div class="d-flex align-items-center gap-1 pt-1">
 								<i class="fa-solid fa-arrows-up-to-line" />
 								<div class="badge bg-dark text-light">
-									{Math.round(articleInterval * 100) / 100}
+									{articleInterval}
 								</div>
 							</div>
 							<div class="text-start">Интервал абзацев</div>
@@ -734,6 +750,8 @@
 						class="btn btn-secondary"
 						on:click|stopPropagation={() => {
 							articleInterval += 0.05;
+							articleInterval =
+								Math.round(articleInterval * 100) / 100;
 							localStorage.setItem(
 								"articleInterval",
 								JSON.stringify(articleInterval),
@@ -744,6 +762,8 @@
 						class="btn btn-secondary"
 						on:click|stopPropagation={() => {
 							articleInterval -= 0.05;
+							articleInterval =
+								Math.round(articleInterval * 100) / 100;
 							localStorage.setItem(
 								"articleInterval",
 								JSON.stringify(articleInterval),
