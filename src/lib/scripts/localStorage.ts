@@ -9,14 +9,14 @@ export function initialLocalStorage() {
     localStorage.getItem('articleInterval') ?? localStorage.setItem('articleInterval', JSON.stringify(0.75));
 }
 
-export let isNavPanelShow = () => localStorage.getItem('isNavPanelShow');
-export let isTitlesShow = () => localStorage.getItem('isTitlesShow');
-export let bgColor = () => localStorage.getItem('bgColor');
-export let textColor = () => localStorage.getItem('textColor');
-export let fontFamily = () => localStorage.getItem('fontFamily');
-export let fontSize = () => Number(localStorage.getItem('fontSize'));
-export let lineHeight = () => Number(localStorage.getItem('lineHeight'));
-export let articleInterval = () => Number(localStorage.getItem('articleInterval'));
+export let isNavPanelShow = (): Boolean => localStorage.getItem('isNavPanelShow').toLowerCase() === 'true';
+export let isTitlesShow = (): Boolean => localStorage.getItem('isTitlesShow').toLowerCase() === 'true';
+export let bgColor = (): String => localStorage.getItem('bgColor');
+export let textColor = (): String => localStorage.getItem('textColor');
+export let fontFamily = (): String => localStorage.getItem('fontFamily');
+export let fontSize = (): Number => Number(localStorage.getItem('fontSize'));
+export let lineHeight = (): Number => Number(localStorage.getItem('lineHeight'));
+export let articleInterval = (): Number => Number(localStorage.getItem('articleInterval'));
 
 export let setIsNavPanelShow = (v: Boolean) => localStorage.setItem('isNavPanelShow', JSON.stringify(v));
 export let setIsTitlesShow = (v: Boolean) => localStorage.setItem('isTitlesShow', JSON.stringify(v));
