@@ -1,16 +1,16 @@
 <script lang="ts">
+	import { onMount } from "svelte";
 	import Title from "./lib/components/Title.svelte";
 	import { initialLocalStorage } from "./lib/scripts/localStorage";
-	import {
-		articleInterval,
-		bgColor,
-		fontFamily,
-		fontSize,
-		isNavPanelShow,
-		isTitlesShow,
-		lineHeight,
-		textColor,
-	} from "./lib/scripts/writable";
+
+	let isNavPanelShow = true;
+	let isTitlesShow = true;
+	let bgColor = "bg-light";
+	let textColor = "text-dark";
+	let fontFamily = "Raleway";
+	let fontSize = 1.2;
+	let lineHeight = 1.25;
+	let articleInterval = 0.75;
 
 	let colors = [
 		{ name: "light", description: "Белый" },
@@ -19,22 +19,31 @@
 		{ name: "4", description: "Серый" },
 		{ name: "dark", description: "Тёмный" },
 	];
-	initialLocalStorage();
+
+	onMount(() => {
+		initialLocalStorage();
+		isNavPanelShow =
+			localStorage.getItem("isNavPanelShow").toLocaleLowerCase() ===
+			"true";
+	});
 </script>
 
 <Title
 	title="Молитвы о воинах"
-	isShow={$isNavPanelShow}
-	bgColor={$bgColor}
-	isTitlesButtonClicked={() => ($isTitlesShow = true)}
-	isSettingsButtonClicked={() => ($isTitlesShow = false)}
+	isShow={isNavPanelShow}
+	{bgColor}
+	isTitlesButtonClicked={() => (isTitlesShow = true)}
+	isSettingsButtonClicked={() => (isTitlesShow = false)}
 />
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
-	class="{$bgColor} {$textColor} pb-1"
-	style="font-size: {$fontSize}em; padding: 0 .7em; font-family: {$fontFamily}; line-height:{$lineHeight}em; --article-interval:{$articleInterval}em"
-	on:click={() => ($isNavPanelShow = !$isNavPanelShow)}
+	class="{bgColor} {textColor} pb-1"
+	style="font-size: {fontSize}em; padding: 0 .7em; font-family: {fontFamily}; line-height:{lineHeight}em; --article-interval:{articleInterval}em"
+	on:click={() => {
+		isNavPanelShow = !isNavPanelShow;
+		localStorage.setItem("isNavPanelShow", JSON.stringify(isNavPanelShow));
+	}}
 >
 	<div id="t1">
 		<h5>МОЛИТВА О МИРЕ И ЕДИНСТВЕ РУССКОЙ ЦЕРКВИ И НАРОДА</h5>
@@ -282,12 +291,12 @@
 </div>
 
 <div
-	class="sticky-bottom w-100 {$bgColor != 'bg-dark'
+	class="sticky-bottom w-100 {bgColor != 'bg-dark'
 		? 'bg-dark'
-		: 'bg-4'} text-light px-3 pt-2 pb-3 {$isNavPanelShow ? '' : 'collapse'}"
+		: 'bg-4'} text-light px-3 pt-2 pb-3 {isNavPanelShow ? '' : 'collapse'}"
 >
 	<div />
-	{#if $isTitlesShow}
+	{#if isTitlesShow}
 		<div class="d-flex align-items-center justify-content-between mb-2">
 			<div class="d-flex align-items-center gap-2 mt-1">
 				<i class="fa-regular fa-rectangle-list" />
@@ -295,7 +304,7 @@
 			</div>
 			<button
 				class="btn btn-sm bg-light text-dark position-absolute end-0 me-2"
-				on:click={() => ($isNavPanelShow = false)}
+				on:click={() => (isNavPanelShow = false)}
 			>
 				<i class="fa-solid fa-xmark" />
 			</button>
@@ -338,7 +347,7 @@
 			>
 		</div>
 	{/if}
-	{#if !$isTitlesShow}
+	{#if !isTitlesShow}
 		<div class="d-flex align-items-center justify-content-between mb-2">
 			<div class="d-flex align-items-center gap-2 mt-1">
 				<i class="fa-solid fa-gear" />
@@ -346,7 +355,7 @@
 			</div>
 			<button
 				class="btn btn-sm bg-light text-dark position-absolute end-0 me-2"
-				on:click={() => ($isNavPanelShow = false)}
+				on:click={() => (isNavPanelShow = false)}
 			>
 				<i class="fa-solid fa-xmark" />
 			</button>
@@ -357,12 +366,9 @@
 					<button class="btn bg-light bg-opacity-75 text-dark w-100">
 						<div class="d-flex align-items-center gap-1 text-start">
 							<i class="fa-solid fa-paint-roller pt-1" />
-							<div
-								class="badge {$bgColor} {$textColor} text-start"
-							>
+							<div class="badge {bgColor} {textColor} text-start">
 								{colors.find(
-									(c) =>
-										c.name == $bgColor.replace("bg-", ""),
+									(c) => c.name == bgColor.replace("bg-", ""),
 								)?.description}
 							</div>
 						</div>
@@ -374,14 +380,14 @@
 								<button
 									class="dropdown-item"
 									on:click={() => {
-										$bgColor = "bg-" + color.name;
+										bgColor = "bg-" + color.name;
 										if (
-											$textColor.replace("text-", "") ==
-											$bgColor.replace("bg-", "")
+											textColor.replace("text-", "") ==
+											bgColor.replace("bg-", "")
 										) {
-											if ($bgColor == "bg-dark")
-												$textColor = "text-light";
-											else $textColor = "text-dark";
+											if (bgColor == "bg-dark")
+												textColor = "text-light";
+											else textColor = "text-dark";
 										}
 									}}
 								>
@@ -409,11 +415,11 @@
 					<button class="btn bg-light bg-opacity-75 text-dark w-100">
 						<div class="d-flex align-items-center gap-1 text-start">
 							<i class="fa-solid fa-paintbrush pt-1" />
-							<div class="badge {$textColor} text-start">
+							<div class="badge {textColor} text-start">
 								{colors.find(
 									(c) =>
 										c.name ==
-										$textColor.replace("text-", ""),
+										textColor.replace("text-", ""),
 								)?.description}
 							</div>
 						</div>
@@ -421,12 +427,12 @@
 					</button>
 					<ul class="dropdown-menu">
 						{#each colors as color}
-							{#if color.name != $bgColor.replace("bg-", "")}
+							{#if color.name != bgColor.replace("bg-", "")}
 								<li>
 									<button
 										class="dropdown-item"
 										on:click={() =>
-											($textColor = "text-" + color.name)}
+											(textColor = "text-" + color.name)}
 									>
 										<div
 											class="d-flex align-items-center gap-2"
@@ -456,9 +462,9 @@
 								<i class="fa-solid fa-font" />
 								<div
 									class="badge bg-dark text-light"
-									style="font-family: {$fontFamily};"
+									style="font-family: {fontFamily};"
 								>
-									{$fontFamily}
+									{fontFamily}
 								</div>
 							</div>
 							<div class="text-start">Название шрифта</div>
@@ -468,7 +474,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => ($fontFamily = "Inter")}
+								on:click={() => (fontFamily = "Inter")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -481,7 +487,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => ($fontFamily = "Lora")}
+								on:click={() => (fontFamily = "Lora")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -494,7 +500,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => ($fontFamily = "Manrope")}
+								on:click={() => (fontFamily = "Manrope")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -507,7 +513,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => ($fontFamily = "Montserrat")}
+								on:click={() => (fontFamily = "Montserrat")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -520,7 +526,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => ($fontFamily = "Open_Sans")}
+								on:click={() => (fontFamily = "Open_Sans")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -533,7 +539,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => ($fontFamily = "Oswald")}
+								on:click={() => (fontFamily = "Oswald")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -546,7 +552,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => ($fontFamily = "PT_Sans")}
+								on:click={() => (fontFamily = "PT_Sans")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -559,7 +565,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => ($fontFamily = "PT_Serif")}
+								on:click={() => (fontFamily = "PT_Serif")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -572,7 +578,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => ($fontFamily = "Raleway")}
+								on:click={() => (fontFamily = "Raleway")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -585,7 +591,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => ($fontFamily = "Roboto")}
+								on:click={() => (fontFamily = "Roboto")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -598,7 +604,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => ($fontFamily = "Rubik")}
+								on:click={() => (fontFamily = "Rubik")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -622,7 +628,7 @@
 							<div class="d-flex align-items-center gap-1 pt-1">
 								<i class="fa-solid fa-text-height" />
 								<div class="badge bg-dark text-light">
-									{Math.round($fontSize * 100) / 100}
+									{Math.round(fontSize * 100) / 100}
 								</div>
 							</div>
 							<div class="text-start">Размер шрифта</div>
@@ -630,12 +636,12 @@
 					</button>
 					<button
 						class="btn btn-secondary"
-						on:click|stopPropagation={() => ($fontSize += 0.05)}
+						on:click|stopPropagation={() => (fontSize += 0.05)}
 						><i class="fa-solid fa-plus m-2" /></button
 					>
 					<button
 						class="btn btn-secondary"
-						on:click|stopPropagation={() => ($fontSize -= 0.05)}
+						on:click|stopPropagation={() => (fontSize -= 0.05)}
 						><i class="fa-solid fa-minus m-2" /></button
 					>
 				</div>
@@ -647,7 +653,7 @@
 									class="fa-solid fa-arrow-down-up-across-line"
 								/>
 								<div class="badge bg-dark text-light">
-									{Math.round($lineHeight * 100) / 100}
+									{Math.round(lineHeight * 100) / 100}
 								</div>
 							</div>
 							<div class="text-start">Интервал строк</div>
@@ -655,12 +661,12 @@
 					</button>
 					<button
 						class="btn btn-secondary"
-						on:click|stopPropagation={() => ($lineHeight += 0.05)}
+						on:click|stopPropagation={() => (lineHeight += 0.05)}
 						><i class="fa-solid fa-plus m-2" /></button
 					>
 					<button
 						class="btn btn-secondary"
-						on:click|stopPropagation={() => ($lineHeight -= 0.05)}
+						on:click|stopPropagation={() => (lineHeight -= 0.05)}
 						><i class="fa-solid fa-minus m-2" /></button
 					>
 				</div>
@@ -670,7 +676,7 @@
 							<div class="d-flex align-items-center gap-1 pt-1">
 								<i class="fa-solid fa-arrows-up-to-line" />
 								<div class="badge bg-dark text-light">
-									{Math.round($articleInterval * 100) / 100}
+									{Math.round(articleInterval * 100) / 100}
 								</div>
 							</div>
 							<div class="text-start">Интервал абзацев</div>
@@ -679,13 +685,13 @@
 					<button
 						class="btn btn-secondary"
 						on:click|stopPropagation={() =>
-							($articleInterval += 0.05)}
+							(articleInterval += 0.05)}
 						><i class="fa-solid fa-plus m-2" /></button
 					>
 					<button
 						class="btn btn-secondary"
 						on:click|stopPropagation={() =>
-							($articleInterval -= 0.05)}
+							(articleInterval -= 0.05)}
 						><i class="fa-solid fa-minus m-2" /></button
 					>
 				</div>
