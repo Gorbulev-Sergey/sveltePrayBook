@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Title from "./lib/components/Title.svelte";
+	import { initialLocalStorage } from "./lib/scripts/localStorage";
 	import {
 		articleInterval,
 		bgColor,
@@ -18,6 +19,7 @@
 		{ name: "4", description: "Серый" },
 		{ name: "dark", description: "Тёмный" },
 	];
+	initialLocalStorage();
 </script>
 
 <Title
