@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { bgColor } from "./lib/scripts/localStorage.ts";
 	import { onMount } from "svelte";
 	import Title from "./lib/components/Title.svelte";
 	import { initialLocalStorage } from "./lib/scripts/localStorage";
@@ -304,7 +305,13 @@
 			</div>
 			<button
 				class="btn btn-sm bg-light text-dark position-absolute end-0 me-2"
-				on:click={() => (isNavPanelShow = false)}
+				on:click={() => {
+					isNavPanelShow = false;
+					localStorage.setItem(
+						"isNavPanelShow",
+						JSON.stringify(false),
+					);
+				}}
 			>
 				<i class="fa-solid fa-xmark" />
 			</button>
@@ -355,7 +362,13 @@
 			</div>
 			<button
 				class="btn btn-sm bg-light text-dark position-absolute end-0 me-2"
-				on:click={() => (isNavPanelShow = false)}
+				on:click={() => {
+					isNavPanelShow = false;
+					localStorage.setItem(
+						"isNavPanelShow",
+						JSON.stringify(false),
+					);
+				}}
 			>
 				<i class="fa-solid fa-xmark" />
 			</button>
@@ -389,6 +402,10 @@
 												textColor = "text-light";
 											else textColor = "text-dark";
 										}
+										localStorage.setItem(
+											"bgColor",
+											JSON.stringify(bgColor),
+										);
 									}}
 								>
 									<div
@@ -431,8 +448,13 @@
 								<li>
 									<button
 										class="dropdown-item"
-										on:click={() =>
-											(textColor = "text-" + color.name)}
+										on:click={() => {
+											textColor = "text-" + color.name;
+											localStorage.setItem(
+												"textColor",
+												JSON.stringify(textColor),
+											);
+										}}
 									>
 										<div
 											class="d-flex align-items-center gap-2"
@@ -474,7 +496,13 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => (fontFamily = "Inter")}
+								on:click={() => {
+									fontFamily = "Inter";
+									localStorage.setItem(
+										"fontFamily",
+										JSON.stringify(fontFamily),
+									);
+								}}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -636,13 +664,23 @@
 					</button>
 					<button
 						class="btn btn-secondary"
-						on:click|stopPropagation={() => (fontSize += 0.05)}
-						><i class="fa-solid fa-plus m-2" /></button
+						on:click|stopPropagation={() => {
+							fontSize += 0.05;
+							localStorage.setItem(
+								"fontSize",
+								JSON.stringify(fontSize),
+							);
+						}}><i class="fa-solid fa-plus m-2" /></button
 					>
 					<button
 						class="btn btn-secondary"
-						on:click|stopPropagation={() => (fontSize -= 0.05)}
-						><i class="fa-solid fa-minus m-2" /></button
+						on:click|stopPropagation={() => {
+							fontSize -= 0.05;
+							localStorage.setItem(
+								"fontSize",
+								JSON.stringify(fontSize),
+							);
+						}}><i class="fa-solid fa-minus m-2" /></button
 					>
 				</div>
 				<div class="btn-group">
@@ -661,13 +699,23 @@
 					</button>
 					<button
 						class="btn btn-secondary"
-						on:click|stopPropagation={() => (lineHeight += 0.05)}
-						><i class="fa-solid fa-plus m-2" /></button
+						on:click|stopPropagation={() => {
+							lineHeight += 0.05;
+							localStorage.setItem(
+								"lineHeight",
+								JSON.stringify(lineHeight),
+							);
+						}}><i class="fa-solid fa-plus m-2" /></button
 					>
 					<button
 						class="btn btn-secondary"
-						on:click|stopPropagation={() => (lineHeight -= 0.05)}
-						><i class="fa-solid fa-minus m-2" /></button
+						on:click|stopPropagation={() => {
+							lineHeight -= 0.05;
+							localStorage.setItem(
+								"lineHeight",
+								JSON.stringify(lineHeight),
+							);
+						}}><i class="fa-solid fa-minus m-2" /></button
 					>
 				</div>
 				<div class="btn-group">
@@ -684,15 +732,23 @@
 					</button>
 					<button
 						class="btn btn-secondary"
-						on:click|stopPropagation={() =>
-							(articleInterval += 0.05)}
-						><i class="fa-solid fa-plus m-2" /></button
+						on:click|stopPropagation={() => {
+							articleInterval += 0.05;
+							localStorage.setItem(
+								"articleInterval",
+								JSON.stringify(articleInterval),
+							);
+						}}><i class="fa-solid fa-plus m-2" /></button
 					>
 					<button
 						class="btn btn-secondary"
-						on:click|stopPropagation={() =>
-							(articleInterval -= 0.05)}
-						><i class="fa-solid fa-minus m-2" /></button
+						on:click|stopPropagation={() => {
+							articleInterval -= 0.05;
+							localStorage.setItem(
+								"articleInterval",
+								JSON.stringify(articleInterval),
+							);
+						}}><i class="fa-solid fa-minus m-2" /></button
 					>
 				</div>
 			</div>
