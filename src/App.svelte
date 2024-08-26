@@ -8,9 +8,9 @@
 	let bgColor: String = "bg-light";
 	let textColor: String = "text-dark";
 	let fontFamily: String = "Raleway";
-	let fontSize: Number = 1.2;
-	let lineHeight: Number = 1.25;
-	let articleInterval: Number = 0.75;
+	let fontSize = 1.2;
+	let lineHeight = 1.25;
+	let articleInterval = 0.75;
 
 	let colors = [
 		{ name: "light", description: "Белый" },
@@ -30,7 +30,7 @@
 		bgColor = JSON.parse(localStorage.getItem("bgColor").toString());
 		textColor = JSON.parse(localStorage.getItem("textColor").toString());
 		fontFamily = JSON.parse(localStorage.getItem("fontFamily").toString());
-		fontSize = JSON.parse(localStorage.getItem("fontSize"));
+		fontSize = Number(localStorage.getItem("fontSize"));
 		lineHeight = Number(localStorage.getItem("lineHeight"));
 		articleInterval = Number(localStorage.getItem("articleInterval"));
 	});
@@ -690,7 +690,7 @@
 						class="btn btn-secondary"
 						on:click|stopPropagation={() => {
 							fontSize -= 0.05;
-							Math.round(fontSize * 100) / 100;
+							fontSize = Math.round(fontSize * 100) / 100;
 							localStorage.setItem(
 								"fontSize",
 								JSON.stringify(fontSize),
