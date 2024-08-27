@@ -399,14 +399,19 @@
 				<b>Настройки</b>
 			</div>
 			<div
-				class="d-flex align-items-center gap-1 position-absolute end-0 me-2"
+				class="d-flex align-items-center gap-2 position-absolute end-0 me-2"
 			>
 				<button
-					class="btn btn-sm bg-light text-dark"
+					class="btn btn-sm {bgColor != 'bg-dark'
+						? 'bg-dark'
+						: 'bg-4'} text-light"
 					title="Сбросить настройки"
 					on:click={resetSettings}
 				>
-					<i class="fa-solid fa-rotate-left"></i>
+					<div class="d-flex align-items-center gap-1">
+						<i class="fa-solid fa-rotate-left"></i>
+						<small>Сбросить</small>
+					</div>
 				</button>
 				<button
 					class="btn btn-sm bg-light text-dark"
