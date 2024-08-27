@@ -23,7 +23,6 @@
 					: 'bg-4'} text-light"
 				on:click={() => {
 					isTitlesButtonClicked();
-					//localStorage.setItem("isTitlesShow", JSON.stringify(true));
 				}}
 			>
 				<i class="fa-regular fa-rectangle-list" />
@@ -35,7 +34,6 @@
 					: 'bg-4'} text-light"
 				on:click={() => {
 					isSettingsButtonClicked();
-					//localStorage.setItem("isTitlesShow", JSON.stringify(false));
 				}}
 			>
 				<i class="fa-solid fa-gear" />
