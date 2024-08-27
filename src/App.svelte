@@ -73,8 +73,8 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
-	class="{bgColor} {textColor} pb-1"
-	style="font-size: {fontSize}em; padding: 0 .7em; font-family: {fontFamily}; line-height:{lineHeight}em; --article-interval:{articleInterval}em"
+	class="{bgColor} {textColor} pb-1 text-disable-select"
+	style="hyphens:auto; font-size: {fontSize}em; padding: 0 .7em; font-family: {fontFamily}; line-height:{lineHeight}em; --article-interval:{articleInterval}em"
 	on:click={() => {
 		isNavPanelShow = !isNavPanelShow;
 		localStorage.setItem("isNavPanelShow", JSON.stringify(isNavPanelShow));
@@ -920,5 +920,12 @@
 
 	.text-4 {
 		color: #596e79;
+	}
+
+	.text-disable-select {
+		-ms-user-select: none;
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		user-select: none;
 	}
 </style>
