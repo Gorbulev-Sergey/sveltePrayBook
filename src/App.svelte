@@ -20,6 +20,27 @@
 		{ name: "dark", description: "Тёмный" },
 	];
 
+	function setFontFamily(v: String) {
+		fontFamily = v;
+		localStorage.setItem("fontFamily", JSON.stringify(v));
+	}
+
+	function resetSettings() {
+		bgColor = "bg-light";
+		textColor = "text-dark";
+		fontFamily = "Raleway";
+		fontSize = 1.2;
+		lineHeight = 1.25;
+		articleInterval = 0.75;
+
+		localStorage.setItem("bgColor", JSON.stringify("bg-light"));
+		localStorage.setItem("textColor", JSON.stringify("text-dark"));
+		localStorage.setItem("fontFamily", JSON.stringify("Raleway"));
+		localStorage.setItem("fontSize", JSON.stringify(1.2));
+		localStorage.setItem("lineHeight", JSON.stringify(1.25));
+		localStorage.setItem("articleInterval", JSON.stringify(0.75));
+	}
+
 	onMount(() => {
 		initialLocalStorage();
 
@@ -316,18 +337,22 @@
 				<i class="fa-regular fa-rectangle-list" />
 				<b>Оглавление</b>
 			</div>
-			<button
-				class="btn btn-sm bg-light text-dark position-absolute end-0 me-2"
-				on:click={() => {
-					isNavPanelShow = false;
-					localStorage.setItem(
-						"isNavPanelShow",
-						JSON.stringify(false),
-					);
-				}}
+			<div
+				class="d-flex align-items-center gap-1 position-absolute end-0 me-2"
 			>
-				<i class="fa-solid fa-xmark" />
-			</button>
+				<button
+					class="btn btn-sm bg-light text-dark"
+					on:click={() => {
+						isNavPanelShow = false;
+						localStorage.setItem(
+							"isNavPanelShow",
+							JSON.stringify(false),
+						);
+					}}
+				>
+					<i class="fa-solid fa-xmark" />
+				</button>
+			</div>
 		</div>
 		<div class="d-flex flex-column gap-0">
 			<a href="#t1"
@@ -373,18 +398,29 @@
 				<i class="fa-solid fa-gear" />
 				<b>Настройки</b>
 			</div>
-			<button
-				class="btn btn-sm bg-light text-dark position-absolute end-0 me-2"
-				on:click={() => {
-					isNavPanelShow = false;
-					localStorage.setItem(
-						"isNavPanelShow",
-						JSON.stringify(false),
-					);
-				}}
+			<div
+				class="d-flex align-items-center gap-1 position-absolute end-0 me-2"
 			>
-				<i class="fa-solid fa-xmark" />
-			</button>
+				<button
+					class="btn btn-sm bg-light text-dark"
+					title="Сбросить настройки"
+					on:click={resetSettings}
+				>
+					<i class="fa-solid fa-rotate-left"></i>
+				</button>
+				<button
+					class="btn btn-sm bg-light text-dark"
+					on:click={() => {
+						isNavPanelShow = false;
+						localStorage.setItem(
+							"isNavPanelShow",
+							JSON.stringify(false),
+						);
+					}}
+				>
+					<i class="fa-solid fa-xmark" />
+				</button>
+			</div>
 		</div>
 		<div>
 			<div class="d-flex flex-column gap-2 align-items-stretch">
@@ -509,13 +545,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => {
-									fontFamily = "Inter";
-									localStorage.setItem(
-										"fontFamily",
-										JSON.stringify(fontFamily),
-									);
-								}}
+								on:click={() => setFontFamily("Inter")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -528,7 +558,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => (fontFamily = "Lora")}
+								on:click={() => setFontFamily("Lora")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -541,7 +571,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => (fontFamily = "Manrope")}
+								on:click={() => setFontFamily("Manrope")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -554,7 +584,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => (fontFamily = "Montserrat")}
+								on:click={() => setFontFamily("Montserrat")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -567,7 +597,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => (fontFamily = "Open_Sans")}
+								on:click={() => setFontFamily("Open_Sans")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -580,7 +610,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => (fontFamily = "Oswald")}
+								on:click={() => setFontFamily("Oswald")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -593,7 +623,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => (fontFamily = "PT_Sans")}
+								on:click={() => setFontFamily("PT_Sans")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -606,7 +636,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => (fontFamily = "PT_Serif")}
+								on:click={() => setFontFamily("PT_Serif")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -619,7 +649,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => (fontFamily = "Raleway")}
+								on:click={() => setFontFamily("Raleway")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -632,7 +662,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => (fontFamily = "Roboto")}
+								on:click={() => setFontFamily("Roboto")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
@@ -645,7 +675,7 @@
 						<li>
 							<button
 								class="dropdown-item"
-								on:click={() => (fontFamily = "Rubik")}
+								on:click={() => setFontFamily("Rubik")}
 							>
 								<div
 									class="d-flex align-items-center gap-2"
