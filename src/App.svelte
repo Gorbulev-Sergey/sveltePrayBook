@@ -17,6 +17,7 @@
 		{ name: "2", description: "Светло-бежевый" },
 		{ name: "3", description: "Бежевый" },
 		{ name: "4", description: "Серый" },
+		{ name: "5", description: "Хаки" },
 		{ name: "dark", description: "Тёмный" },
 	];
 
@@ -459,6 +460,10 @@
 										localStorage.setItem(
 											"bgColor",
 											JSON.stringify(bgColor),
+										);
+										localStorage.setItem(
+											"textColor",
+											JSON.stringify(textColor),
 										);
 									}}
 								>
@@ -906,6 +911,10 @@
 		background: #596e79;
 	}
 
+	.bg-5 {
+		background: #45452f;
+	}
+
 	.text-1 {
 		color: #f0ece2;
 	}
@@ -920,6 +929,9 @@
 
 	.text-4 {
 		color: #596e79;
+	}
+	.text-5 {
+		color: #45452f;
 	}
 
 	.text-disable-select {
