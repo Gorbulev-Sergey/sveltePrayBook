@@ -1,4 +1,9 @@
 <script lang="ts">
+	import "@fortawesome/fontawesome-free/css/all.min.css";
+	import "@fortawesome/fontawesome-free/js/all";
+	import "bootstrap/dist/css/bootstrap.min.css";
+	import "bootstrap/dist/js/bootstrap.bundle.min";
+
 	import { onMount } from "svelte";
 	import Title from "./lib/components/Title.svelte";
 	import { initialLocalStorage } from "./lib/scripts/localStorage";
