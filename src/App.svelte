@@ -334,7 +334,10 @@
 <div
 	class="sticky-bottom w-100 {bgColor != 'bg-dark'
 		? 'bg-dark'
-		: 'bg-4'} text-light px-3 pt-2 pb-3 {isNavPanelShow ? '' : 'collapse'}"
+		: 'bg-4'} text-light px-3 pt-2 pb-3 {isNavPanelShow
+		? ''
+		: 'collapse'} overflow-auto"
+	style="max-height: 70vh;"
 >
 	<div />
 	{#if isTitlesShow}
