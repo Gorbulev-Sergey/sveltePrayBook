@@ -334,10 +334,7 @@
 <div
 	class="sticky-bottom w-100 {bgColor != 'bg-dark'
 		? 'bg-dark'
-		: 'bg-4'} text-light px-3 pt-2 pb-3 {isNavPanelShow
-		? ''
-		: 'collapse'} overflow-auto"
-	style="max-height: 70vh;"
+		: 'bg-4'} text-light px-3 pt-2 pb-3 {isNavPanelShow ? '' : 'collapse'}"
 >
 	<div />
 	{#if isTitlesShow}
@@ -363,7 +360,10 @@
 				</button>
 			</div>
 		</div>
-		<div class="d-flex flex-column gap-0">
+		<div
+			class="d-flex flex-column gap-0 overflow-auto"
+			style="max-height: 60vh;"
+		>
 			<a href="#t1"
 				><h6>
 					1. МОЛИТВА О МИРЕ И ЕДИНСТВЕ РУССКОЙ ЦЕРКВИ И НАРОДА
@@ -436,39 +436,86 @@
 				</button>
 			</div>
 		</div>
-		<div>
-			<div class="d-flex flex-column gap-2 align-items-stretch">
-				<div class="btn-group">
-					<button class="btn bg-light bg-opacity-75 text-dark w-100">
-						<div class="d-flex align-items-center gap-1 text-start">
-							<i class="fa-solid fa-paint-roller pt-1" />
-							<div class="badge {bgColor} {textColor} text-start">
-								{colors.find(
-									(c) => c.name == bgColor.replace("bg-", ""),
-								)?.description}
-							</div>
+
+		<div
+			class="d-flex flex-column gap-2 align-items-stretch overflow-auto"
+			style="max-height: 60vh;"
+		>
+			<div class="btn-group">
+				<button class="btn bg-light bg-opacity-75 text-dark w-100">
+					<div class="d-flex align-items-center gap-1 text-start">
+						<i class="fa-solid fa-paint-roller pt-1" />
+						<div class="badge {bgColor} {textColor} text-start">
+							{colors.find(
+								(c) => c.name == bgColor.replace("bg-", ""),
+							)?.description}
 						</div>
-						<div class=" text-start">Цвет фона</div>
-					</button>
-					<ul class="dropdown-menu">
-						{#each colors as color}
+					</div>
+					<div class=" text-start">Цвет фона</div>
+				</button>
+				<ul class="dropdown-menu">
+					{#each colors as color}
+						<li>
+							<button
+								class="dropdown-item"
+								on:click={() => {
+									bgColor = "bg-" + color.name;
+									if (
+										textColor.replace("text-", "") ==
+										bgColor.replace("bg-", "")
+									) {
+										if (bgColor == "bg-dark")
+											textColor = "text-light";
+										else textColor = "text-dark";
+									}
+									localStorage.setItem(
+										"bgColor",
+										JSON.stringify(bgColor),
+									);
+									localStorage.setItem(
+										"textColor",
+										JSON.stringify(textColor),
+									);
+								}}
+							>
+								<div class="d-flex align-items-center gap-2">
+									<div
+										class="border bg-{color.name}"
+										style="width: 1.2em; height:1.2em"
+									/>
+									<div>{color.description}</div>
+								</div>
+							</button>
+						</li>
+					{/each}
+				</ul>
+				<button class="btn btn-secondary" data-bs-toggle="dropdown">
+					<i
+						class="fa-solid fa-chevron-up m-2"
+						style="font-size: .9em;"
+					/>
+				</button>
+			</div>
+			<div class="btn-group">
+				<button class="btn bg-light bg-opacity-75 text-dark w-100">
+					<div class="d-flex align-items-center gap-1 text-start">
+						<i class="fa-solid fa-paintbrush pt-1" />
+						<div class="badge {textColor} text-start">
+							{colors.find(
+								(c) => c.name == textColor.replace("text-", ""),
+							)?.description}
+						</div>
+					</div>
+					<div class="text-start">Цвет шрифта</div>
+				</button>
+				<ul class="dropdown-menu">
+					{#each colors as color}
+						{#if color.name != bgColor.replace("bg-", "")}
 							<li>
 								<button
 									class="dropdown-item"
 									on:click={() => {
-										bgColor = "bg-" + color.name;
-										if (
-											textColor.replace("text-", "") ==
-											bgColor.replace("bg-", "")
-										) {
-											if (bgColor == "bg-dark")
-												textColor = "text-light";
-											else textColor = "text-dark";
-										}
-										localStorage.setItem(
-											"bgColor",
-											JSON.stringify(bgColor),
-										);
+										textColor = "text-" + color.name;
 										localStorage.setItem(
 											"textColor",
 											JSON.stringify(textColor),
@@ -486,340 +533,289 @@
 									</div>
 								</button>
 							</li>
-						{/each}
-					</ul>
-					<button class="btn btn-secondary" data-bs-toggle="dropdown">
-						<i
-							class="fa-solid fa-chevron-up m-2"
-							style="font-size: .9em;"
-						/>
-					</button>
-				</div>
-				<div class="btn-group">
-					<button class="btn bg-light bg-opacity-75 text-dark w-100">
-						<div class="d-flex align-items-center gap-1 text-start">
-							<i class="fa-solid fa-paintbrush pt-1" />
-							<div class="badge {textColor} text-start">
-								{colors.find(
-									(c) =>
-										c.name ==
-										textColor.replace("text-", ""),
-								)?.description}
+						{/if}
+					{/each}
+				</ul>
+				<button class="btn btn-secondary" data-bs-toggle="dropdown">
+					<i
+						class="fa-solid fa-chevron-up m-2"
+						style="font-size: .9em;"
+					/>
+				</button>
+			</div>
+			<div class="btn-group">
+				<button class="btn bg-light bg-opacity-75 text-dark w-100">
+					<div class="d-flex flex-column justify-content-center">
+						<div class="d-flex align-items-center gap-1 pt-1">
+							<i class="fa-solid fa-font" />
+							<div
+								class="badge bg-dark text-light"
+								style="font-family: {fontFamily};"
+							>
+								{fontFamily}
 							</div>
 						</div>
-						<div class="text-start">Цвет шрифта</div>
-					</button>
-					<ul class="dropdown-menu">
-						{#each colors as color}
-							{#if color.name != bgColor.replace("bg-", "")}
-								<li>
-									<button
-										class="dropdown-item"
-										on:click={() => {
-											textColor = "text-" + color.name;
-											localStorage.setItem(
-												"textColor",
-												JSON.stringify(textColor),
-											);
-										}}
-									>
-										<div
-											class="d-flex align-items-center gap-2"
-										>
-											<div
-												class="border bg-{color.name}"
-												style="width: 1.2em; height:1.2em"
-											/>
-											<div>{color.description}</div>
-										</div>
-									</button>
-								</li>
-							{/if}
-						{/each}
-					</ul>
-					<button class="btn btn-secondary" data-bs-toggle="dropdown">
-						<i
-							class="fa-solid fa-chevron-up m-2"
-							style="font-size: .9em;"
-						/>
-					</button>
-				</div>
-				<div class="btn-group">
-					<button class="btn bg-light bg-opacity-75 text-dark w-100">
-						<div class="d-flex flex-column justify-content-center">
-							<div class="d-flex align-items-center gap-1 pt-1">
-								<i class="fa-solid fa-font" />
-								<div
-									class="badge bg-dark text-light"
-									style="font-family: {fontFamily};"
-								>
-									{fontFamily}
-								</div>
+						<div class="text-start">Название шрифта</div>
+					</div>
+				</button>
+				<ul class="dropdown-menu">
+					<li>
+						<button
+							class="dropdown-item"
+							on:click={() => setFontFamily("Inter")}
+						>
+							<div
+								class="d-flex align-items-center gap-2"
+								style="font-family: 'Inter"
+							>
+								Inter
 							</div>
-							<div class="text-start">Название шрифта</div>
-						</div>
-					</button>
-					<ul class="dropdown-menu">
-						<li>
-							<button
-								class="dropdown-item"
-								on:click={() => setFontFamily("Inter")}
+						</button>
+					</li>
+					<li>
+						<button
+							class="dropdown-item"
+							on:click={() => setFontFamily("Lora")}
+						>
+							<div
+								class="d-flex align-items-center gap-2"
+								style="font-family: 'Lora"
 							>
-								<div
-									class="d-flex align-items-center gap-2"
-									style="font-family: 'Inter"
-								>
-									Inter
-								</div>
-							</button>
-						</li>
-						<li>
-							<button
-								class="dropdown-item"
-								on:click={() => setFontFamily("Lora")}
-							>
-								<div
-									class="d-flex align-items-center gap-2"
-									style="font-family: 'Lora"
-								>
-									Lora
-								</div>
-							</button>
-						</li>
-						<li>
-							<button
-								class="dropdown-item"
-								on:click={() => setFontFamily("Manrope")}
-							>
-								<div
-									class="d-flex align-items-center gap-2"
-									style="font-family: 'Manrope"
-								>
-									Manrope
-								</div>
-							</button>
-						</li>
-						<li>
-							<button
-								class="dropdown-item"
-								on:click={() => setFontFamily("Montserrat")}
-							>
-								<div
-									class="d-flex align-items-center gap-2"
-									style="font-family: 'Montserrat"
-								>
-									Montserrat
-								</div>
-							</button>
-						</li>
-						<li>
-							<button
-								class="dropdown-item"
-								on:click={() => setFontFamily("Open_Sans")}
-							>
-								<div
-									class="d-flex align-items-center gap-2"
-									style="font-family: 'Open_Sans"
-								>
-									Open Sans
-								</div>
-							</button>
-						</li>
-						<li>
-							<button
-								class="dropdown-item"
-								on:click={() => setFontFamily("Oswald")}
-							>
-								<div
-									class="d-flex align-items-center gap-2"
-									style="font-family:'Oswald"
-								>
-									Oswald
-								</div>
-							</button>
-						</li>
-						<li>
-							<button
-								class="dropdown-item"
-								on:click={() => setFontFamily("PT_Sans")}
-							>
-								<div
-									class="d-flex align-items-center gap-2"
-									style="font-family:'PT_Sans"
-								>
-									PT Sans
-								</div>
-							</button>
-						</li>
-						<li>
-							<button
-								class="dropdown-item"
-								on:click={() => setFontFamily("PT_Serif")}
-							>
-								<div
-									class="d-flex align-items-center gap-2"
-									style="font-family:'PT_Serif"
-								>
-									PT Serif
-								</div>
-							</button>
-						</li>
-						<li>
-							<button
-								class="dropdown-item"
-								on:click={() => setFontFamily("Raleway")}
-							>
-								<div
-									class="d-flex align-items-center gap-2"
-									style="font-family:'Raleway"
-								>
-									Raleway
-								</div>
-							</button>
-						</li>
-						<li>
-							<button
-								class="dropdown-item"
-								on:click={() => setFontFamily("Roboto")}
-							>
-								<div
-									class="d-flex align-items-center gap-2"
-									style="font-family:'Roboto"
-								>
-									Roboto
-								</div>
-							</button>
-						</li>
-						<li>
-							<button
-								class="dropdown-item"
-								on:click={() => setFontFamily("Rubik")}
-							>
-								<div
-									class="d-flex align-items-center gap-2"
-									style="font-family:'Rubik"
-								>
-									Rubik
-								</div>
-							</button>
-						</li>
-					</ul>
-					<button class="btn btn-secondary" data-bs-toggle="dropdown">
-						<i
-							class="fa-solid fa-chevron-up m-2"
-							style="font-size: .9em;"
-						/>
-					</button>
-				</div>
-				<div class="btn-group">
-					<button class="btn bg-light bg-opacity-75 text-dark w-100">
-						<div class="d-flex flex-column justify-content-center">
-							<div class="d-flex align-items-center gap-1 pt-1">
-								<i class="fa-solid fa-text-height" />
-								<div class="badge bg-dark text-light">
-									{fontSize}
-								</div>
+								Lora
 							</div>
-							<div class="text-start">Размер шрифта</div>
-						</div>
-					</button>
-					<button
-						class="btn btn-secondary"
-						on:click|stopPropagation={() => {
-							fontSize += 0.05;
-							fontSize = Math.round(fontSize * 100) / 100;
-							localStorage.setItem(
-								"fontSize",
-								JSON.stringify(fontSize),
-							);
-						}}><i class="fa-solid fa-plus m-2" /></button
-					>
-					<button
-						class="btn btn-secondary"
-						on:click|stopPropagation={() => {
-							fontSize -= 0.05;
-							fontSize = Math.round(fontSize * 100) / 100;
-							localStorage.setItem(
-								"fontSize",
-								JSON.stringify(fontSize),
-							);
-						}}><i class="fa-solid fa-minus m-2" /></button
-					>
-				</div>
-				<div class="btn-group">
-					<button class="btn bg-light bg-opacity-75 text-dark w-100">
-						<div class="d-flex flex-column justify-content-center">
-							<div class="d-flex align-items-center gap-1 pt-1">
-								<i
-									class="fa-solid fa-arrow-down-up-across-line"
-								/>
-								<div class="badge bg-dark text-light">
-									{lineHeight}
-								</div>
+						</button>
+					</li>
+					<li>
+						<button
+							class="dropdown-item"
+							on:click={() => setFontFamily("Manrope")}
+						>
+							<div
+								class="d-flex align-items-center gap-2"
+								style="font-family: 'Manrope"
+							>
+								Manrope
 							</div>
-							<div class="text-start">Интервал строк</div>
-						</div>
-					</button>
-					<button
-						class="btn btn-secondary"
-						on:click|stopPropagation={() => {
-							lineHeight += 0.05;
-							lineHeight = Math.round(lineHeight * 100) / 100;
-							localStorage.setItem(
-								"lineHeight",
-								JSON.stringify(lineHeight),
-							);
-						}}><i class="fa-solid fa-plus m-2" /></button
-					>
-					<button
-						class="btn btn-secondary"
-						on:click|stopPropagation={() => {
-							lineHeight -= 0.05;
-							lineHeight = Math.round(lineHeight * 100) / 100;
-							localStorage.setItem(
-								"lineHeight",
-								JSON.stringify(lineHeight),
-							);
-						}}><i class="fa-solid fa-minus m-2" /></button
-					>
-				</div>
-				<div class="btn-group">
-					<button class="btn bg-light bg-opacity-75 text-dark w-100">
-						<div class="d-flex flex-column justify-content-center">
-							<div class="d-flex align-items-center gap-1 pt-1">
-								<i class="fa-solid fa-arrows-up-to-line" />
-								<div class="badge bg-dark text-light">
-									{articleInterval}
-								</div>
+						</button>
+					</li>
+					<li>
+						<button
+							class="dropdown-item"
+							on:click={() => setFontFamily("Montserrat")}
+						>
+							<div
+								class="d-flex align-items-center gap-2"
+								style="font-family: 'Montserrat"
+							>
+								Montserrat
 							</div>
-							<div class="text-start">Интервал абзацев</div>
+						</button>
+					</li>
+					<li>
+						<button
+							class="dropdown-item"
+							on:click={() => setFontFamily("Open_Sans")}
+						>
+							<div
+								class="d-flex align-items-center gap-2"
+								style="font-family: 'Open_Sans"
+							>
+								Open Sans
+							</div>
+						</button>
+					</li>
+					<li>
+						<button
+							class="dropdown-item"
+							on:click={() => setFontFamily("Oswald")}
+						>
+							<div
+								class="d-flex align-items-center gap-2"
+								style="font-family:'Oswald"
+							>
+								Oswald
+							</div>
+						</button>
+					</li>
+					<li>
+						<button
+							class="dropdown-item"
+							on:click={() => setFontFamily("PT_Sans")}
+						>
+							<div
+								class="d-flex align-items-center gap-2"
+								style="font-family:'PT_Sans"
+							>
+								PT Sans
+							</div>
+						</button>
+					</li>
+					<li>
+						<button
+							class="dropdown-item"
+							on:click={() => setFontFamily("PT_Serif")}
+						>
+							<div
+								class="d-flex align-items-center gap-2"
+								style="font-family:'PT_Serif"
+							>
+								PT Serif
+							</div>
+						</button>
+					</li>
+					<li>
+						<button
+							class="dropdown-item"
+							on:click={() => setFontFamily("Raleway")}
+						>
+							<div
+								class="d-flex align-items-center gap-2"
+								style="font-family:'Raleway"
+							>
+								Raleway
+							</div>
+						</button>
+					</li>
+					<li>
+						<button
+							class="dropdown-item"
+							on:click={() => setFontFamily("Roboto")}
+						>
+							<div
+								class="d-flex align-items-center gap-2"
+								style="font-family:'Roboto"
+							>
+								Roboto
+							</div>
+						</button>
+					</li>
+					<li>
+						<button
+							class="dropdown-item"
+							on:click={() => setFontFamily("Rubik")}
+						>
+							<div
+								class="d-flex align-items-center gap-2"
+								style="font-family:'Rubik"
+							>
+								Rubik
+							</div>
+						</button>
+					</li>
+				</ul>
+				<button class="btn btn-secondary" data-bs-toggle="dropdown">
+					<i
+						class="fa-solid fa-chevron-up m-2"
+						style="font-size: .9em;"
+					/>
+				</button>
+			</div>
+			<div class="btn-group">
+				<button class="btn bg-light bg-opacity-75 text-dark w-100">
+					<div class="d-flex flex-column justify-content-center">
+						<div class="d-flex align-items-center gap-1 pt-1">
+							<i class="fa-solid fa-text-height" />
+							<div class="badge bg-dark text-light">
+								{fontSize}
+							</div>
 						</div>
-					</button>
-					<button
-						class="btn btn-secondary"
-						on:click|stopPropagation={() => {
-							articleInterval += 0.05;
-							articleInterval =
-								Math.round(articleInterval * 100) / 100;
-							localStorage.setItem(
-								"articleInterval",
-								JSON.stringify(articleInterval),
-							);
-						}}><i class="fa-solid fa-plus m-2" /></button
-					>
-					<button
-						class="btn btn-secondary"
-						on:click|stopPropagation={() => {
-							articleInterval -= 0.05;
-							articleInterval =
-								Math.round(articleInterval * 100) / 100;
-							localStorage.setItem(
-								"articleInterval",
-								JSON.stringify(articleInterval),
-							);
-						}}><i class="fa-solid fa-minus m-2" /></button
-					>
-				</div>
+						<div class="text-start">Размер шрифта</div>
+					</div>
+				</button>
+				<button
+					class="btn btn-secondary"
+					on:click|stopPropagation={() => {
+						fontSize += 0.05;
+						fontSize = Math.round(fontSize * 100) / 100;
+						localStorage.setItem(
+							"fontSize",
+							JSON.stringify(fontSize),
+						);
+					}}><i class="fa-solid fa-plus m-2" /></button
+				>
+				<button
+					class="btn btn-secondary"
+					on:click|stopPropagation={() => {
+						fontSize -= 0.05;
+						fontSize = Math.round(fontSize * 100) / 100;
+						localStorage.setItem(
+							"fontSize",
+							JSON.stringify(fontSize),
+						);
+					}}><i class="fa-solid fa-minus m-2" /></button
+				>
+			</div>
+			<div class="btn-group">
+				<button class="btn bg-light bg-opacity-75 text-dark w-100">
+					<div class="d-flex flex-column justify-content-center">
+						<div class="d-flex align-items-center gap-1 pt-1">
+							<i class="fa-solid fa-arrow-down-up-across-line" />
+							<div class="badge bg-dark text-light">
+								{lineHeight}
+							</div>
+						</div>
+						<div class="text-start">Интервал строк</div>
+					</div>
+				</button>
+				<button
+					class="btn btn-secondary"
+					on:click|stopPropagation={() => {
+						lineHeight += 0.05;
+						lineHeight = Math.round(lineHeight * 100) / 100;
+						localStorage.setItem(
+							"lineHeight",
+							JSON.stringify(lineHeight),
+						);
+					}}><i class="fa-solid fa-plus m-2" /></button
+				>
+				<button
+					class="btn btn-secondary"
+					on:click|stopPropagation={() => {
+						lineHeight -= 0.05;
+						lineHeight = Math.round(lineHeight * 100) / 100;
+						localStorage.setItem(
+							"lineHeight",
+							JSON.stringify(lineHeight),
+						);
+					}}><i class="fa-solid fa-minus m-2" /></button
+				>
+			</div>
+			<div class="btn-group">
+				<button class="btn bg-light bg-opacity-75 text-dark w-100">
+					<div class="d-flex flex-column justify-content-center">
+						<div class="d-flex align-items-center gap-1 pt-1">
+							<i class="fa-solid fa-arrows-up-to-line" />
+							<div class="badge bg-dark text-light">
+								{articleInterval}
+							</div>
+						</div>
+						<div class="text-start">Интервал абзацев</div>
+					</div>
+				</button>
+				<button
+					class="btn btn-secondary"
+					on:click|stopPropagation={() => {
+						articleInterval += 0.05;
+						articleInterval =
+							Math.round(articleInterval * 100) / 100;
+						localStorage.setItem(
+							"articleInterval",
+							JSON.stringify(articleInterval),
+						);
+					}}><i class="fa-solid fa-plus m-2" /></button
+				>
+				<button
+					class="btn btn-secondary"
+					on:click|stopPropagation={() => {
+						articleInterval -= 0.05;
+						articleInterval =
+							Math.round(articleInterval * 100) / 100;
+						localStorage.setItem(
+							"articleInterval",
+							JSON.stringify(articleInterval),
+						);
+					}}><i class="fa-solid fa-minus m-2" /></button
+				>
 			</div>
 		</div>
 	{/if}
